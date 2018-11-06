@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: AM demodulatie
-# Generated: Tue Nov  6 00:13:31 2018
+# Generated: Tue Nov  6 10:39:50 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -39,7 +39,7 @@ class top_block(grc_wxgui.top_block_gui):
 
     def __init__(self):
         grc_wxgui.top_block_gui.__init__(self, title="AM demodulatie")
-        _icon_path = "A:\Program Files\GNURadio-3.7\share\icons\hicolor\scalable/apps\gnuradio-grc.png"
+        _icon_path = "C:\Program Files\GNURadio-3.7\share\icons\hicolor\scalable/apps\gnuradio-grc.png"
         self.SetIcon(wx.Icon(_icon_path, wx.BITMAP_TYPE_ANY))
 
         ##################################################
@@ -137,9 +137,10 @@ class top_block(grc_wxgui.top_block_gui):
         )
         self.low_pass_filter_0 = filter.fir_filter_ccf(1, firdes.low_pass(
         	1, samp_rate, 10000, 100, firdes.WIN_HAMMING, 6.76))
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_float*1, samp_rate,True)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vff((volume, ))
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, 'A:\\Documenten\\Pieter\\Netwerken\\Werkcollege\\am_usrp710.dat', True)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, 'A:\\Documents\\Netwerken\\Werkcollege\\am_usrp710.dat', True)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
         self.audio_sink_0 = audio.sink(48000, '', True)
@@ -159,9 +160,10 @@ class top_block(grc_wxgui.top_block_gui):
         self.connect((self.blocks_file_source_0, 0), (self.wxgui_fftsink2_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.blocks_multiply_xx_0, 0), (self.low_pass_filter_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.audio_sink_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.wxgui_scopesink2_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.analog_agc2_xx_0, 0))
-        self.connect((self.rational_resampler_xxx_0, 0), (self.audio_sink_0, 0))
-        self.connect((self.rational_resampler_xxx_0, 0), (self.wxgui_scopesink2_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_throttle_0, 0))
 
     def get_volume(self):
         return self.volume
@@ -180,6 +182,7 @@ class top_block(grc_wxgui.top_block_gui):
         self.wxgui_scopesink2_0.set_sample_rate(self.samp_rate/16*3)
         self.wxgui_fftsink2_0.set_sample_rate(self.samp_rate)
         self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, 10000, 100, firdes.WIN_HAMMING, 6.76))
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
         self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
 
     def get_resamp_factor(self):
