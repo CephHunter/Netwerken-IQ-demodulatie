@@ -1,0 +1,83 @@
+\documentclass[12px]{article}
+\usepackage{vub, pgfplots, amsmath, amsthm, amssymb, graphicx, float, placeins, makecell}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[backend=biber]{biblatex}
+\pgfplotsset{compat=1.16}
+\graphicspath{ {./images/} }
+%\addbibresource{sample.bib}
+
+\renewcommand{\figurename}{Figuur}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadalign{bl}
+
+\title{Netwerken}
+\subtitle{AM en FM modulatie en demodulatie}
+\author{Partous Pieter}
+\faculty{Industrieel ingenieur}
+\date{December 17, 2018}
+
+\begin{document}
+\maketitle
+\section{AM modulatie en demodulatie}
+\subsection{AM modulatie}
+Voor de AM modulatie van het informatie signaal heb ik gebruik gemaakt van het DSB-modulatieproces. In ons geval hebben we een informatie signaal dat een sinus van 1 hertz is met een amplitude van 1
+\[b(t)=sin(2 \pi t)\]
+en een carrier van 100 hertz met amplitude 1.
+\[c(t)=sin(2 \pi 100 t)\]
+De waarde $K_a=1/[b]$ is gelijk aan 1 want $[b]$ is 1. Volgens het DSB-modulatieprocess krijgen we dan volgend signaal:
+\[x(t)=(1+sin(2 \pi t)) \times sin(2 \pi 100 t)\]
+
+\subsection{AM demodulatie}
+Om het AM signaal te demoduleren maken we gebruik van IQ quadratures die dezelfde frequentie hebben als de carrier. Deze worden in de praktijk gegenereerd door een interen oscillator dus laten we deze $IO_0$ en $IO_{90}$ noemen gedefinieerd als volgt
+\[IO_0=sin(2 \pi 100 t)\]
+\[IO_{90}=cos(2 \pi 100 t)\]
+De I en Q signalen kunnen dan gevonden worden door $x(t)$ te vermenigvuldigen met $IO_0$ en $IO_{90}$
+\[I=IO_0 \times x(t)\]
+\[Q=IO_{90} \times x(t)\]
+Deze I en Q signalen worden dan gefilterd met een low-pass filter om de carrier frequentie te blokkeren en enkel het nuttig signaal door te laten. Hierna kan het oorspronkelijk signaal teruggevonden worden door de complexe som van beide te nemen:
+\[b'(t)=\sqrt{I^2 + Q^2}\]
+
+
+\section{FM modulatie en demodulatie}
+\subsection{FM modulatie}
+Als signaal hebben we opnieuw een sinus van 1 hetz met een amplitude van 1. En een carrier van 100 hertz met een amplitude van 1.
+\[b(t)=sin(2 \pi t)\]
+\[c(t)=sin(2 \pi 100 t)\]
+FM modulatie geeft
+\[x(t)=cos\left(2 \pi 100 t + 2 \pi \int_0^t{sin(2 \pi t)}\right)\]
+
+\subsection{FM demodulatie}
+We gebruiken opnieuw $IO_0$ en $IO_{90}$
+\[IO_0=sin(2 \pi 100 t)\]
+\[IO_{90}=cos(2 \pi 100 t)\]
+om de waarden van I en Q te bekomen
+\[I=IO_0 \times x(t)\]
+\[Q=IO_{90} \times x(t)\]
+De phase tussen de I en Q signalen bereken als volgt
+\[\phi=atan\left(\frac{Q}{I}\right)\]
+Deze waarde komt overeen met het oorspronkelijk signaal.
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

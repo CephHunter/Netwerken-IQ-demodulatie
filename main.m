@@ -96,7 +96,7 @@ axis([0 10 0 t_length*Fs/2])
 title("fft input signal")
 
 % FM modulation
-RF_signal = cos(2*pi*f_carrier*t + signal);
+RF_signal = cos(2*pi*f_carrier*t + 0.0005*cumsum(signal));
 subplot(5,2,3)
 plot(t, RF_signal)
 title('RF modulated')
